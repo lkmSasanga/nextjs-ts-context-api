@@ -1,18 +1,11 @@
 import { createContext, useContext, ReactNode, useState } from "react";
 
 type authContextType = {
-  user: boolean;
-  login: () => void;
-  logout: () => void;
+  user: string;
+  setUser: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const authContextDefaultValues: authContextType = {
-  user: null,
-  login: () => {},
-  logout: () => {},
-};
-
-const AuthContext = createContext<authContextType>(authContextDefaultValues);
+const AuthContext = createContext<authContextType>({} as authContextType);
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -23,20 +16,11 @@ type Props = {
 };
 
 export function AuthProvider({ children }: Props) {
-  const [user, setUser] = useState<boolean>(null);
-
-  const login = () => {
-    setUser(true);
-  };
-
-  const logout = () => {
-    setUser(false);
-  };
+  const [user, setUser] = useState<string>("");
 
   const value = {
     user,
-    login,
-    logout,
+    setUser,
   };
 
   return (
